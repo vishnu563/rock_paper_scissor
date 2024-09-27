@@ -43,7 +43,7 @@ const ResultsPage = () => {
                                 <React.Fragment key={gameIndex}>
                                     {game.roundResults.map((round, roundIndex) => (
                                         <tr key={`${gameIndex}-${roundIndex}`}>
-                                            <td>{gameIndex + 1}</td>
+                                            <td >{gameIndex + 1}</td>
                                             <td>{round.round}</td>
                                             <td>{round.player1Choice}</td>
                                             <td>{round.player2Choice}</td>
@@ -60,7 +60,7 @@ const ResultsPage = () => {
                         </tbody>
                     </table>
 
-                    <button onClick={clearResults} style={{ marginTop: '20px' }}>
+                    <button onClick={clearResults}>
                         Clear Results
                     </button>
                 </>

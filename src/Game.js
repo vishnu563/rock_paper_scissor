@@ -138,15 +138,17 @@ const GamePage = ({ player1Name, player2Name }) => {
                             {player2Choice && <p>{player2Choice}</p>}
                         </div>
                     </div>
+                    <div className='next-round-btn'>
                     <button onClick={nextRound} disabled={!roundOver || gameFinished}>
                         Next Round
                     </button>
+                    </div>
                 </section>
             </main>
 
             <footer>
-                {result && <h2>Round Result: {result}</h2>}
-                {gameFinished && finalWinner && <h2>{finalWinner}</h2>}
+                {result && <h2 className='round-winner'>Round Result: {result}</h2>}
+                {gameFinished && finalWinner && <h2 className='final-winner'>{finalWinner}</h2>}
                 {gameFinished && (
                     <button onClick={resetGame} className="reset-btn">
                         Reset Game
