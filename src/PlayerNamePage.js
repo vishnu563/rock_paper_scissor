@@ -10,28 +10,30 @@ const PlayerNamePage = ({ setPlayer1Name, setPlayer2Name }) => {
         if (localPlayer1Name && localPlayer2Name) {
             setPlayer1Name(localPlayer1Name);
             setPlayer2Name(localPlayer2Name);
-            navigate('/game'); // Navigate to the game page
+            navigate('/game'); 
         }
     };
 
     return (
-        <div>
-            <h1>Enter Player Names</h1>
-            <input
-                type="text"
-                placeholder="Player 1 Name"
-                value={localPlayer1Name}
-                onChange={(e) => setLocalPlayer1Name(e.target.value)}
-                required
-            />
-            <input
-                type="text"
-                placeholder="Player 2 Name"
-                value={localPlayer2Name}
-                onChange={(e) => setLocalPlayer2Name(e.target.value)}
-                required
-            />
-            <button onClick={startGame}>Start Game</button>
+        <div className='inputs'>
+            <h1>Enter Player'S Name</h1>
+            <form >
+                <input
+                    type="text"
+                    placeholder="Player 1 Name"
+                    value={localPlayer1Name}
+                    onChange={(e) => setLocalPlayer1Name(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Player 2 Name"
+                    value={localPlayer2Name}
+                    onChange={(e) => setLocalPlayer2Name(e.target.value)}
+                    required
+                />
+                <button onClick={startGame}>Start Game</button>
+            </form>
         </div>
     );
 };

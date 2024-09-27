@@ -60,7 +60,6 @@ const ResultsPage = () => {
                         </tbody>
                     </table>
 
-                    {/* Clear Results Button */}
                     <button onClick={clearResults} style={{ marginTop: '20px' }}>
                         Clear Results
                     </button>

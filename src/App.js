@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlayerNamePage from './PlayerNamePage';
 import Game from './Game.js';
-import ResultsPage from './ResultsPage'; // Assuming this already exists
-
+import ResultsPage from './ResultsPage'; 
+import './App.css'
 const App = () => {
     const [player1Name, setPlayer1Name] = useState("");
     const [player2Name, setPlayer2Name] = useState("");

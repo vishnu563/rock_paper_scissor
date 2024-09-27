@@ -26,6 +26,7 @@ const GamePage = ({ player1Name, player2Name }) => {
     const [gameFinished, setGameFinished] = useState(false);
     const [finalWinner, setFinalWinner] = useState("");
     const [roundResults, setRoundResults] = useState([]);
+    const [roundOver, setRoundOver] = useState(false);
 
     const getPlayer2Choice = () => {
         const randomIndex = Math.floor(Math.random() * choices.length);
@@ -33,38 +34,40 @@ const GamePage = ({ player1Name, player2Name }) => {
     };
 
     const handleChoice = (choice) => {
-        if (!gameFinished) {
-            setPlayer1Choice(choice);
+        if (!gameFinished && !roundOver) {
             const player2Choice = getPlayer2Choice();
+            setPlayer1Choice(choice);
             setPlayer2Choice(player2Choice);
+
+            const roundWinner = getRoundWinner(choice, player2Choice, player1Name, player2Name);
+            setResult(roundWinner);
+
+            if (roundWinner === player1Name) {
+                setPlayer1Score(player1Score + 1);
+            } else if (roundWinner === player2Name) {
+                setPlayer2Score(player2Score + 1);
+            }
+
+            const updatedRoundResults = [...roundResults, { round, player1Choice: choice, player2Choice, roundWinner }];
+            setRoundResults(updatedRoundResults);
+
+            setRoundOver(true);
         }
     };
 
     const nextRound = () => {
-        const roundWinner = getRoundWinner(player1Choice, player2Choice, player1Name, player2Name);
-
-        const updatedRoundResults = [...roundResults, { round, player1Choice, player2Choice, roundWinner }];
-
-        if (roundWinner === player1Name) {
-            setPlayer1Score(player1Score + 1);
-        } else if (roundWinner === player2Name) {
-            setPlayer2Score(player2Score + 1);
-        }
-
-        setResult(roundWinner);
-        setRoundResults(updatedRoundResults);
-
         if (round === 6) {
-            const finalResult = determineFinalWinner(player1Score + (roundWinner === player1Name ? 1 : 0), player2Score + (roundWinner === player2Name ? 1 : 0));
+            const finalResult = determineFinalWinner(player1Score, player2Score);
             setFinalWinner(finalResult);
             setGameFinished(true);
-            saveGameToLocalStorage(updatedRoundResults, finalResult);
+            saveGameToLocalStorage(roundResults, finalResult);
         } else {
             setRound(round + 1);
+            setPlayer1Choice("");
+            setPlayer2Choice("");
+            setResult("");
+            setRoundOver(false);  
         }
-
-        setPlayer1Choice("");
-        setPlayer2Choice("");
     };
 
     const determineFinalWinner = (finalPlayer1Score, finalPlayer2Score) => {
@@ -87,6 +90,7 @@ const GamePage = ({ player1Name, player2Name }) => {
         setFinalWinner("");
         setRoundResults([]);
         setGameFinished(false);
+        setRoundOver(false);  
     };
 
     const saveGameToLocalStorage = (roundResults, finalWinner) => {
@@ -101,44 +105,54 @@ const GamePage = ({ player1Name, player2Name }) => {
 
     return (
         <div>
-            <nav>
-                <ul>
-                    <li><Link to="/results">View Results</Link></li>
-                </ul>
-            </nav>
-            <h1>{player1Name} vs {player2Name} - Round {round}</h1>
-            <div className="scoreboard">
-                <p>{player1Name} Score: {player1Score}</p>
-                <p>{player2Name} Score: {player2Score}</p>
-            </div>
+            <header className='game'>
+                <nav>
+                    <ul>
+                        <li><Link to="/">Change Players</Link></li>
+                        <li><Link to="/results">View Results</Link></li>
+                    </ul>
+                </nav>
+            </header>
+            <main> 
+                <section className='playername'>
+                    <h1><span>{player1Name}</span> vs <span>{player2Name}</span></h1>
+                    <h2> Round {round}</h2>
+                    <div className="scoreboard">
+                        <h3>{player1Name} Score: {player1Score}</h3>
+                        <h3>{player2Name} Score: {player2Score}</h3>
+                    </div>
+                </section> 
+                <section >
+                    <div className='choices'>
+                        <div className='choices-player'>
+                            <h2>{player1Name}</h2>
+                            {choices.map((choice) => (
+                            <button key={choice} onClick={() => handleChoice(choice)} disabled={roundOver || gameFinished}>
+                                {choice}
+                            </button>
+                            ))}
+                        </div>
 
-            <div className="choices">
-                <div>
-                    <h2>{player1Name}</h2>
-                    {choices.map((choice) => (
-                        <button key={choice} onClick={() => handleChoice(choice)} disabled={gameFinished}>
-                            {choice}
-                        </button>
-                    ))}
-                </div>
+                        <div className='choices-player'>
+                            <h2>{player2Name}</h2>
+                            {player2Choice && <p>{player2Choice}</p>}
+                        </div>
+                    </div>
+                    <button onClick={nextRound} disabled={!roundOver || gameFinished}>
+                        Next Round
+                    </button>
+                </section>
+            </main>
 
-                <div>
-                    <h2>{player2Name}</h2>
-                    {player2Choice && <p>{player2Choice}</p>}
-                </div>
-            </div>
-
-            <button onClick={nextRound} disabled={!player1Choice || gameFinished}>
-                Next Round
-            </button>
-
-            {result && <h2>Round Result: {result}</h2>}
-            {gameFinished && finalWinner && <h2>{finalWinner}</h2>}
-            {gameFinished && (
-                <button onClick={resetGame} className="reset-btn">
-                    Reset Game
-                </button>
-            )}
+            <footer>
+                {result && <h2>Round Result: {result}</h2>}
+                {gameFinished && finalWinner && <h2>{finalWinner}</h2>}
+                {gameFinished && (
+                    <button onClick={resetGame} className="reset-btn">
+                        Reset Game
+                    </button>
+                )}
+            </footer>
         </div>
     );
 };
