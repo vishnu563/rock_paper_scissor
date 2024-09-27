@@ -96,6 +96,8 @@ const GamePage = ({ player1Name, player2Name }) => {
     const saveGameToLocalStorage = (roundResults, finalWinner) => {
         const storedGames = JSON.parse(localStorage.getItem('gameHistory')) || [];
         const newGame = {
+            player1Name,
+            player2Name,
             roundResults,
             finalWinner,
         };

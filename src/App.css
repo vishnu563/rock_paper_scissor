@@ -89,7 +89,8 @@ a{
 .choices h2{
     text-transform: uppercase;
 }
-.choices button{ 
+.choices button{
+    cursor: pointer; 
     padding: 0.25rem 1rem;
 }
 .choices-player{
@@ -107,6 +108,7 @@ a{
     justify-content: center;
     align-items: center;
     margin-top: 2rem ;
+    
 }
 .next-round-btn button{
     border: none;
@@ -117,6 +119,7 @@ a{
     max-width: fit-content;
     max-height: fit-content;
     padding: 0.5rem 0.75rem;
+    cursor: pointer;
 }
 .round-winner{
     display: flex;
@@ -139,6 +142,7 @@ footer button{
     font-weight: 600;
     width: 8rem;
     padding: 0.5rem 0.75rem;
+    cursor: pointer;
 }
 
 .result-head nav{
@@ -172,6 +176,7 @@ footer button{
     width: 10rem;
     padding: 0.5rem 0.75rem;
     margin: 2rem 0;
+    cursor: pointer;
 }
 .data-table thead tr th{
     border: 5px solid ;
@@ -186,4 +191,7 @@ footer button{
 }
 .winner-table{
     text-align: center;
+}
+.players-name-row{
+    border: 1px solid black;
 }

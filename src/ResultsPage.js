@@ -42,14 +42,20 @@ const ResultsPage = () => {
                             <tbody>
                                 {gameHistory.map((game, gameIndex) => (
                                     <React.Fragment key={gameIndex}>
-                                        {game.roundResults.map((round, roundIndex) => (
+                                         <tr>
+                                            <td colSpan="5" className="players-name-row">
+                                                <strong>Players: {game.player1Name} vs {game.player2Name}</strong>
+                                            </td>
+                                        </tr>
+                                            <td rowSpan={7} className='table-value'>{gameIndex + 1}</td>
+                                        {game.roundResults.map((round, roundIndex) => (<>
                                             <tr key={`${gameIndex}-${roundIndex}`}>
-                                                <td className='table-value'>{gameIndex + 1}</td>
                                                 <td className='table-value'>{round.round}</td>
                                                 <td className='table-value'>{round.player1Choice}</td>
                                                 <td className='table-value'>{round.player2Choice}</td>
                                                 <td className='table-value'>{round.roundWinner}</td>
                                             </tr>
+                                        </>
                                         ))}
                                         <tr key={`final-${gameIndex}`}>
                                             <td colSpan="5" className='winner-table'>
