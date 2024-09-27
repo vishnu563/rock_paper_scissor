@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const choices = ["Rock", "Paper", "Scissors"];
 
@@ -27,6 +27,14 @@ const GamePage = ({ player1Name, player2Name }) => {
     const [finalWinner, setFinalWinner] = useState("");
     const [roundResults, setRoundResults] = useState([]);
     const [roundOver, setRoundOver] = useState(false);
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!player1Name || !player2Name) {
+            alert("Please select players.");
+            navigate("/");
+        }
+    }, [player1Name, player2Name]);
 
     const getPlayer2Choice = () => {
         const randomIndex = Math.floor(Math.random() * choices.length);
@@ -129,9 +137,9 @@ const GamePage = ({ player1Name, player2Name }) => {
                         <div className='choices-player'>
                             <h2>{player1Name}</h2>
                             {choices.map((choice) => (
-                            <button key={choice} onClick={() => handleChoice(choice)} disabled={roundOver || gameFinished}>
-                                {choice}
-                            </button>
+                                <button key={choice} onClick={() => handleChoice(choice)} disabled={roundOver || gameFinished}>
+                                    {choice}
+                                </button>
                             ))}
                         </div>
 
@@ -141,9 +149,9 @@ const GamePage = ({ player1Name, player2Name }) => {
                         </div>
                     </div>
                     <div className='next-round-btn'>
-                    <button onClick={nextRound} disabled={!roundOver || gameFinished}>
-                        Next Round
-                    </button>
+                        <button onClick={nextRound} disabled={!roundOver || gameFinished}>
+                            Next Round
+                        </button>
                     </div>
                 </section>
             </main>
@@ -153,9 +161,9 @@ const GamePage = ({ player1Name, player2Name }) => {
                 {gameFinished && finalWinner && <h2 className='final-winner'> Final Winner is : {finalWinner}</h2>}
                 {gameFinished && (
                     <div className="reset-btn">
-                    <button onClick={resetGame}>
-                        Reset Game
-                    </button>
+                        <button onClick={resetGame}>
+                            Reset Game
+                        </button>
                     </div>
                 )}
             </footer>
