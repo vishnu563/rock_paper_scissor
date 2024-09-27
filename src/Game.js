@@ -72,9 +72,9 @@ const GamePage = ({ player1Name, player2Name }) => {
 
     const determineFinalWinner = (finalPlayer1Score, finalPlayer2Score) => {
         if (finalPlayer1Score > finalPlayer2Score) {
-            return `${player1Name} is the overall winner!`;
+            return `${player1Name}`;
         } else if (finalPlayer2Score > finalPlayer1Score) {
-            return `${player2Name} is the overall winner!`;
+            return `${player2Name}`;
         } else {
             return 'It\'s a tie!';
         }
@@ -105,7 +105,7 @@ const GamePage = ({ player1Name, player2Name }) => {
 
     return (
         <div>
-            <header className='game'>
+            <header className='game-head'>
                 <nav>
                     <ul>
                         <li><Link to="/">Change Players</Link></li>
@@ -148,11 +148,13 @@ const GamePage = ({ player1Name, player2Name }) => {
 
             <footer>
                 {result && <h2 className='round-winner'>Round Result: {result}</h2>}
-                {gameFinished && finalWinner && <h2 className='final-winner'>{finalWinner}</h2>}
+                {gameFinished && finalWinner && <h2 className='final-winner'> Final Winner is : {finalWinner}</h2>}
                 {gameFinished && (
-                    <button onClick={resetGame} className="reset-btn">
+                    <div className="reset-btn">
+                    <button onClick={resetGame}>
                         Reset Game
                     </button>
+                    </div>
                 )}
             </footer>
         </div>
