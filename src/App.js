@@ -1,18 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Game from './Game';
-import ResultsPage from './ResultsPage';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PlayerNamePage from './PlayerNamePage';
+import Game from './Game.js';
+import ResultsPage from './ResultsPage'; // Assuming this already exists
 
 const App = () => {
+    const [player1Name, setPlayer1Name] = useState("");
+    const [player2Name, setPlayer2Name] = useState("");
+
     return (
         <Router>
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<Game />} />
-                    <Route path="/results" element={<ResultsPage />} />
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="/" element={<PlayerNamePage setPlayer1Name={setPlayer1Name} setPlayer2Name={setPlayer2Name} />} />
+                <Route path="/game" element={<Game player1Name={player1Name} player2Name={player2Name} />} />
+                <Route path="/results" element={<ResultsPage />} />
+            </Routes>
         </Router>
     );
 };

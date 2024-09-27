@@ -9,27 +9,23 @@ const getRoundWinner = (player1Choice, player2Choice, player1Name, player2Name) 
         (player1Choice === "Rock" && player2Choice === "Scissors") ||
         (player1Choice === "Scissors" && player2Choice === "Paper") ||
         (player1Choice === "Paper" && player2Choice === "Rock")
-    ){
+    ) {
         return player1Name; 
-    } 
-    else {
-        return player2Name; 
+    } else {
+        return player2Name;
     }
 };
 
-const Game = () => {
+const GamePage = ({ player1Name, player2Name }) => {
     const [round, setRound] = useState(1);
-    const [player1Name, setPlayer1Name] = useState("");
-    const [player2Name, setPlayer2Name] = useState("");
     const [player1Choice, setPlayer1Choice] = useState("");
-    const [player2Choice, setPlayer2Choice] = useState(""); 
+    const [player2Choice, setPlayer2Choice] = useState("");
     const [player1Score, setPlayer1Score] = useState(0);
-    const [player2Score, setPlayer2Score] = useState(0); 
+    const [player2Score, setPlayer2Score] = useState(0);
     const [result, setResult] = useState("");
     const [gameFinished, setGameFinished] = useState(false);
     const [finalWinner, setFinalWinner] = useState("");
     const [roundResults, setRoundResults] = useState([]);
-    const [gameStarted, setGameStarted] = useState(false); 
 
     const getPlayer2Choice = () => {
         const randomIndex = Math.floor(Math.random() * choices.length);
@@ -46,15 +42,15 @@ const Game = () => {
 
     const nextRound = () => {
         const roundWinner = getRoundWinner(player1Choice, player2Choice, player1Name, player2Name);
-        
+
         const updatedRoundResults = [...roundResults, { round, player1Choice, player2Choice, roundWinner }];
-        
+
         if (roundWinner === player1Name) {
             setPlayer1Score(player1Score + 1);
         } else if (roundWinner === player2Name) {
             setPlayer2Score(player2Score + 1);
         }
-        
+
         setResult(roundWinner);
         setRoundResults(updatedRoundResults);
 
@@ -103,77 +99,48 @@ const Game = () => {
         localStorage.setItem('gameHistory', JSON.stringify(storedGames));
     };
 
-    const startGame = () => {
-        if (player1Name && player2Name) { 
-            setGameStarted(true);
-        }
-    };
-
     return (
         <div>
-            {!gameStarted ? (
+            <nav>
+                <ul>
+                    <li><Link to="/results">View Results</Link></li>
+                </ul>
+            </nav>
+            <h1>{player1Name} vs {player2Name} - Round {round}</h1>
+            <div className="scoreboard">
+                <p>{player1Name} Score: {player1Score}</p>
+                <p>{player2Name} Score: {player2Score}</p>
+            </div>
+
+            <div className="choices">
                 <div>
-                    <h1>Enter Player Names</h1>
-                    <input 
-                        type="text" 
-                        placeholder="Player 1 Name" 
-                        value={player1Name}
-                        onChange={(e) => setPlayer1Name(e.target.value)}
-                        required
-                    />
-                    <input 
-                        type="text" 
-                        placeholder="Player 2 Name" 
-                        value={player2Name}
-                        onChange={(e) => setPlayer2Name(e.target.value)} 
-                        required
-                    />
-                    <button onClick={startGame}>Start Game</button>
-                </div>
-            ) : (
-                <>
-                <nav>
-                    <ul>
-                        <li><Link to="/results">View Results</Link></li>
-                    </ul>
-                </nav>
-                    <h1>{player1Name} vs {player2Name} - Round {round}</h1>
-                    <div className="scoreboard">
-                        <p>{player1Name} Score: {player1Score}</p>
-                        <p>{player2Name} Score: {player2Score}</p>
-                    </div>
-
-                    <div className="choices">
-                        <div>
-                            <h2>{player1Name}</h2>
-                            {choices.map((choice) => (
-                                <button key={choice} onClick={() => handleChoice(choice)} disabled={gameFinished}>
-                                    {choice}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div>
-                            <h2>{player2Name}</h2>
-                            {player2Choice && <p>{player2Choice}</p>}
-                        </div>
-                    </div>
-
-                    <button onClick={nextRound} disabled={!player1Choice || gameFinished}>
-                        Next Round
-                    </button>
-
-                    {result && <h2>Round Result: {result}</h2>}
-                    {gameFinished && finalWinner && <h2>{finalWinner}</h2>}
-                    {gameFinished && (
-                        <button onClick={resetGame} className="reset-btn">
-                            Reset Game
+                    <h2>{player1Name}</h2>
+                    {choices.map((choice) => (
+                        <button key={choice} onClick={() => handleChoice(choice)} disabled={gameFinished}>
+                            {choice}
                         </button>
-                    )}
-                </>
+                    ))}
+                </div>
+
+                <div>
+                    <h2>{player2Name}</h2>
+                    {player2Choice && <p>{player2Choice}</p>}
+                </div>
+            </div>
+
+            <button onClick={nextRound} disabled={!player1Choice || gameFinished}>
+                Next Round
+            </button>
+
+            {result && <h2>Round Result: {result}</h2>}
+            {gameFinished && finalWinner && <h2>{finalWinner}</h2>}
+            {gameFinished && (
+                <button onClick={resetGame} className="reset-btn">
+                    Reset Game
+                </button>
             )}
         </div>
     );
 };
 
-export default Game;
+export default GamePage;

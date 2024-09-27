@@ -18,7 +18,7 @@ const ResultsPage = () => {
         <div>
             <nav>
                 <ul>
-                    <li><Link to="/">Play Game</Link></li>
+                    <li><Link to="/game">Play Game</Link></li>
                 </ul>
             </nav>
 
